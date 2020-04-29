@@ -24,3 +24,4 @@ class Venues(db.Model):
     __tablename__ = 'venues'
 
     id = Column(Integer, primary_key=True)
+    name = Column(String)
