@@ -19,3 +19,8 @@ def setup_db(app, database_path=database_path):
     db.init_app(app)
     db.create_all()
 
+
+class Venues(db.Model):
+    __tablename__ = 'venues'
+
+    id = Column(Integer, primary_key=True)
