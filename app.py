@@ -11,8 +11,9 @@ def create_app(test_config=None):
   CORS(app)
 
   @app.route('/')
-    def get_greeting():
-        return "Hello!"
+  def get_greeting():
+    return "hello!"
+  
 
 
 
