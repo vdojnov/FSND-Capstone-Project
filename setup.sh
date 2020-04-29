@@ -1,1 +1,2 @@
-export DATABASE_URL="postgresql://postgres:viktor@localhost:5432/fsndcapstone"
+# export DATABASE_URL="postgresql://postgres:viktor@localhost:5432/fsndcapstone"
+export DATABASE_URL="postgres://xqxaermqnitoht:331004d9456aa4d481965ced391c990370fb00de058c9ac04c90c0a0a55f0bfc@ec2-3-211-48-92.compute-1.amazonaws.com:5432/d96f6ssdpgtn9c"
