@@ -48,6 +48,7 @@ class MenuItems(db.Model):
     description = Column(String)
     price = Column(Numeric)
     restaurant_id = Column(Integer)
+    
 
 
 
