@@ -1,1 +1,2 @@
-export $env:DATABASE_URL="postgresql://postgres:viktor@localhost:5432/fsndcapstone"
+$env:DATABASE_URL="postgresql://postgres:viktor@localhost:5432/fsndcapstone"
+$env:FLASK_APP="app.py"
