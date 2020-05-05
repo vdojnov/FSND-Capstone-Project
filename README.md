@@ -70,8 +70,9 @@ flask run
 
 Created by Viktor Dojnov - https://github.com/vdojnov
 
-Special thanks to Kurt Galvin - https://github.com/kurtgalvin
-
+Special thanks to:
+* Kurt Galvin - https://github.com/kurtgalvin
+* The Udacity Team!
 
 
 
