@@ -28,7 +28,13 @@ class Restaurant(db.Model):
     address = Column(String)
     owner_id = Column(String, nullable=False)  # owner_id will be retrieved from token to see which user owns the restaurant
     reservation_rel = db.relationship('Reservations', backref='restaurnt_res', lazy=True)
-    reservation_rel = db.relationship('MenuItems', backref='restaurnt_menu_item', lazy=True)    
+    reservation_rel = db.relationship('MenuItems', backref='restaurnt_menu_item', lazy=True)  
+
+    def format(self):
+        return {
+             "name": self.name
+            ,"address": self.address
+        }  
 
 # Table to store information about the reservations at restaurants
 class Reservations(db.Model):
