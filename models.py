@@ -47,6 +47,17 @@ class Reservations(db.Model):
     customer_id = Column(String) # customer_id will be retrieved from token
     restaurant_id = Column(Integer, ForeignKey('restaurants.id'))
 
+    def insert(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def update(self):
+        db.session.commit()
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+
     def format(self):
         return {
              "time_of_res": self.time_of_res
