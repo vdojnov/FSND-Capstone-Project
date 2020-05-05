@@ -70,7 +70,7 @@ def create_app(test_config=None):
   # Restaurant owner - post:restaurant
   @app.route('/restaurants', methods=['POST'])
   @requires_auth('post:restaurant')
-    def post_reservation(token):
+    def post_restaurants(token):
       try:
 
         owner_id = token.get('sub')
@@ -93,7 +93,7 @@ def create_app(test_config=None):
     # Restaurant owner - patch:restaurant
     @app.route('/restaurants/<int:id>', methods=['POST'])
     @requires_auth('patch:restaurant')
-      def post_reservation(token, id):
+      def edir_restaurant(token, id):
         try:
           owner_id = token.get('sub')
 
@@ -121,24 +121,24 @@ def create_app(test_config=None):
           abort(422)
 
         return jsonify(updated_restaurant.format())
-
-
-
-
-
-
-
-
-
-
-
-
-
   
 
   # Restaurant owner - delete:restaurant
+  @app.route('/restaurants/<int:id>', methods=['POST'])
+  @requires_auth('delete:restaurant')
+    def edir_restaurant(token, id):
+      try:
+        owner_id = token.get('sub')
 
-  
+        restaurant = Restaurant.query.get(id)
+        
+        if owner_id != restaurant.owner_id:
+          abort(401)
+
+        restaurant.delete()
+      except:
+        abort(422)
+      
 
 
   # Error Handlers
