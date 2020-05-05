@@ -24,11 +24,18 @@ def create_app(test_config=None):
     try:
       restaurants = Restaurant.query.all()
     except:
-      abort(403)
+      abort(404)
     return jsonify([restaurant.format() for restaurant in restaurants])
 
   # Public - get:menu_item
-  # @app.route('/')
+  @app.route('/restaurants/<int:id>/menu')
+  def get_restaruant_menu(id):
+    r_id = id
+    try:
+      menu_items = MenuItems.query.filter(MenuItems.restaurant_id==r_id).all()
+    except:
+      abort(404)
+    return jsonify([item.format() for item in menu_items])
 
   # Public - get:restaurant
 
