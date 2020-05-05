@@ -70,63 +70,30 @@ def create_app(test_config=None):
   # Restaurant owner - post:restaurant
   @app.route('/restaurants', methods=['POST'])
   @requires_auth('post:restaurant')
-    def post_restaurants(token):
-      try:
+  def post_restaurants(token):
+    try:
 
-        owner_id = token.get('sub')
+      owner_id = token.get('sub')
 
-        body = request.get_json()
-        name = body.get('name')
-        address = body.get('address')
+      body = request.get_json()
+      name = body.get('name')
+      address = body.get('address')
 
-        restaurant = Restaurant(owner_id=owner_id, name=name, address=address)
-        restaurant.insert()
+      restaurant = Restaurant(owner_id=owner_id, name=name, address=address)
+      restaurant.insert()
 
-        users_restaurant = Restaurant.query.filter(Restaurant.owner_id==owner_id).all()
+      users_restaurant = Restaurant.query.filter(Restaurant.owner_id==owner_id).all()
 
-      except:
-        abort(422)
+    except:
+      abort(422)
 
-      return jsonify([restaurant.format() for restaurant in users_restaurant])
+    return jsonify([restaurant.format() for restaurant in users_restaurant])
 
 
     # Restaurant owner - patch:restaurant
     @app.route('/restaurants/<int:id>', methods=['POST'])
     @requires_auth('patch:restaurant')
-      def edir_restaurant(token, id):
-        try:
-          owner_id = token.get('sub')
-
-          restaurant = Restaurant.query.get(id)
-          
-          if owner_id != restaurant.owner_id:
-            abort(401)
-
-          body = request.get_json()
-
-          new_name = body.get('name', None)
-          new_address = body.get('address', None)
-
-      
-          if new_name:
-            restaurant.name = new_name
-          if new_address:
-            restaurant.address = new_address
-
-          restaurant.update()
-
-          updated_restaurant = Restaurant.query.get(id)
-        
-        except:
-          abort(422)
-
-        return jsonify(updated_restaurant.format())
-  
-
-  # Restaurant owner - delete:restaurant
-  @app.route('/restaurants/<int:id>', methods=['POST'])
-  @requires_auth('delete:restaurant')
-    def edir_restaurant(token, id):
+    def edit_restaurant(token, id):
       try:
         owner_id = token.get('sub')
 
@@ -135,10 +102,43 @@ def create_app(test_config=None):
         if owner_id != restaurant.owner_id:
           abort(401)
 
-        restaurant.delete()
+        body = request.get_json()
+
+        new_name = body.get('name', None)
+        new_address = body.get('address', None)
+
+    
+        if new_name:
+          restaurant.name = new_name
+        if new_address:
+          restaurant.address = new_address
+
+        restaurant.update()
+
+        updated_restaurant = Restaurant.query.get(id)
+      
       except:
         abort(422)
+
+      return jsonify(updated_restaurant.format())
+
+
+  # Restaurant owner - delete:restaurant
+  @app.route('/restaurants/<int:id>', methods=['POST'])
+  @requires_auth('delete:restaurant')
+  def delete_restaurant(token, id):
+    try:
+      owner_id = token.get('sub')
+
+      restaurant = Restaurant.query.get(id)
       
+      if owner_id != restaurant.owner_id:
+        abort(401)
+
+      restaurant.delete()
+    except:
+      abort(422)
+    
 
 
   # Error Handlers
