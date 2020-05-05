@@ -79,6 +79,43 @@ def create_app(test_config=None):
   
 
 
+  # Error Handlers
+  
+  @app.errorhandler(422)
+  def unprocessable(error):
+      return jsonify({
+                      "success": False,
+                      "error": 422,
+                      "message": "unprocessable"
+                      }), 422
+
+
+  @app.errorhandler(404)
+  def not_found(error):
+      return jsonify({
+          "success": False,
+          "error": 404,
+          "message": "resource not found"
+      }), 404
+
+
+  @app.errorhandler(401)
+  def unauthorized(error):
+      return jsonify({
+          "success": False,
+          "error": 401,
+          "message": "Unauthorized Error"
+      }), 401
+
+  @app.errorhandler(400)
+  def bad_request(error):
+      return jsonify({
+          "success": False,
+          "error": 400,
+          "message": "Bad Request"
+      }), 400
+
+
 
   return app
 
