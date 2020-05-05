@@ -23,6 +23,8 @@ def create_app(test_config=None):
   def get_restaruants():
     try:
       restaurants = Restaurant.query.all()
+      if menu_items == []:
+        abort(404)
     except:
       abort(404)
     return jsonify([restaurant.format() for restaurant in restaurants])
@@ -33,13 +35,40 @@ def create_app(test_config=None):
     r_id = id
     try:
       menu_items = MenuItems.query.filter(MenuItems.restaurant_id==r_id).all()
+      if menu_items == []:
+        abort(404)
     except:
       abort(404)
     return jsonify([item.format() for item in menu_items])
 
-  # Public - get:restaurant
-
+  
   # Customer - post:reservation
+  @app.route('/restaurants/<int:id>/reservation', methods=['POST'])
+  @requires_auth('post:reservation')
+  def post_reservation(token):
+    try:
+      restaurant_id = id
+
+      body = request.get_josn()
+      time_of_res = body.get('time_of_res')
+      num_of_people = body.get('num_of_people')
+      name_for_res = body.get('name_for_res')
+
+      customer_id = token.get('sub')
+
+      reservation = Reservations(restaurant_id=restaurant_id, time_of_res=time_of_res, num_of_people=num_of_people, name_for_res=name_for_res, customer_id=customer_id)
+      reservation.insert()
+
+      upcoming_reservations = Reservations.query.filter(Reservations.customer_id==customer_id,time_of_res >= datetime.now())
+
+    except:
+      abort(403)
+
+    return [reservation.format() for reservation in upcoming_reservations]
+
+    
+
+
 
   # Restaurant owner - post:restaurant
 
