@@ -5,26 +5,37 @@ https://fsnd-happyhour.herokuapp.com/
  
 The motivation of this project is to practice the skills learned during the Udacity FullStack NanoDegree program. The basis of the app for restaurant managers to be able to post their restraurant and menus for customers to be able to see and make reservations.  
 
-# The Stack
-    * Python
-    * Flask
-    * SQLAlechmy
-    * Postgres Database
-    * Flask - Migrate
-    * JSON Web Token (JWT) - Auth0 (auth0.com)
-    * Python virtual environment
+* Link to course click [here](https://www.udacity.com/course/full-stack-web-developer-nanodegree--nd0044)
 
-# Requirements
-1. Install the necessary requirmenets by running:
+* Link to course syllabus, click [here](https://bertelsmann-university.com/fileadmin/user_upload/Full_Stack_ND_Syllabus.pdf) 
+
+# The Stack
+* [Python 3.8.2](https://www.python.org/downloads/release/python-382/)  
+* [Flask - Web Framework](https://flask.palletsprojects.com/en/1.1.x/)
+* [SQLAlechmy ORM](https://flask-sqlalchemy.palletsprojects.com/en/2.x/)
+* [PostgresSQL 12.2](https://www.postgresql.org/docs/12/release-12-2.html) 
+* [Flask - Migrate](https://flask-migrate.readthedocs.io/en/latest/)
+* Authentication - JSON Web Token (JWT) with [Auth0](auth0.com)
+* User Roles/Permissions
+* Python virtual environment - [venv](https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/)
+* API testing with [Postman](https://www.postman.com/)
+* Deployment on [Heroku](https://heroku.com/)
+
+# Getting Started
+**Requirements**
+
+Install the necessary requirmenets by running:
 
 ``` bash
 pip install -r requirements.txt
 ```
-2. Open a terminal and cd to the project directory:
+
+**Running on local machine**
+1. Open a terminal and cd to the project directory:
 ``` bash
 cd ~/FSND-Capstone-Project
 ```
-3. Set up your DATABASE_URL variable depending on OS:
+2. Set up your DATABASE_URL variable depending on OS:
 
 ``` bash
 export DATABASE_URL="{DATABASE_URL}"
@@ -34,7 +45,7 @@ For Windows use:
 $env:DATABASE_URL="{DATABASE_URL}"
 ```
 
-4. Run ALL three migration commands ONLY on you first set up:
+3. Run ALL three migration commands **ONLY** on you first set up:
 
 ``` bash
 # Run the init command once
@@ -45,7 +56,7 @@ python manage.py db upgrade
 # Run the last 2 commands if/when you make changes to database structure
 ```
 
-5. Set up FLASK_APP variable depending on OS:
+4. Set up FLASK_APP variable depending on OS:
 ``` bash
 export FLASK_APP=app.py
 
@@ -65,11 +76,18 @@ flask run
 
  * You can securly Sign Up or Log In through Auth0: https://fsnd-happyhour.auth0.com/authorize?audience=fsndcapstone&response_type=token&client_id=rY3ee6xjoWocXP7PkCUouHS48vX9YAoo&redirect_uri=http://localhost:5000/login-results
 
- 
-# Credits
 
-Created by Viktor Dojnov - https://github.com/vdojnov
+# Testing
+* Testing instructions
 
+# Deployment
+* Deployment on Heroku instructions
+
+# Authors
+
+* **Viktor Dojnov** - https://github.com/vdojnov
+
+# Acknowledgments
 Special thanks to:
 * Kurt Galvin - https://github.com/kurtgalvin
 * The Udacity Team!
