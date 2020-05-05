@@ -30,6 +30,17 @@ class Restaurant(db.Model):
     reservation_rel = db.relationship('Reservations', backref='restaurnt_res', lazy=True)
     reservation_rel = db.relationship('MenuItems', backref='restaurnt_menu_item', lazy=True)  
 
+    def insert(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def update(self):
+        db.session.commit()
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+
     def format(self):
         return {
              "name": self.name
@@ -76,6 +87,17 @@ class MenuItems(db.Model):
     description = Column(String)
     price = Column(Numeric)
     restaurant_id = Column(Integer, ForeignKey('restaurants.id'))
+
+    def insert(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def update(self):
+        db.session.commit()
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
     
     def format(self):
         return {
