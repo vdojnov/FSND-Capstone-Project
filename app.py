@@ -139,6 +139,9 @@ def create_app(test_config=None):
     except:
       abort(422)
     
+# Dealing with user role setup on signup
+# https://community.auth0.com/t/how-to-add-roles-permissions-to-a-user-during-signup/27006
+# https://auth0.com/docs/authorization/concepts/sample-use-cases-rules
 
 
   # Error Handlers
