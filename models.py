@@ -47,6 +47,15 @@ class Reservations(db.Model):
     customer_id = Column(String) # customer_id will be retrieved from token
     restaurant_id = Column(Integer, ForeignKey('restaurants.id'))
 
+    def format(self):
+        return {
+             "time_of_res": self.time_of_res
+            ,"num_of_people": self.num_of_people
+            ,"restaurant_name": self.restaurnt_res.name
+        } 
+
+
+
 # Table to store information about the Menu Items at restaurants
 class MenuItems(db.Model):
     __tablename__ = 'menu_items'
@@ -57,5 +66,11 @@ class MenuItems(db.Model):
     price = Column(Numeric)
     restaurant_id = Column(Integer, ForeignKey('restaurants.id'))
     
-
+    def format(self):
+        return {
+             "name": self.name
+            ,"description": self.description
+            ,"price": str(self.price)
+            ,"restaurant_name": self.restaurnt_menu_item.name
+        } 
 
