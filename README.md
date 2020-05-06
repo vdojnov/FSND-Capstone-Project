@@ -84,7 +84,6 @@ flask run
 * Deployment on Heroku instructions
 
 # Authors
-
 * **Viktor Dojnov** - https://github.com/vdojnov
 
 # Acknowledgments
