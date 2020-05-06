@@ -1,6 +1,7 @@
 # Starting Python Virtual Environment
 **Install and create virtual environment (Windows)**
 ```bash
+py -m pip install --upgrade pip
 py -m pip install --user virtualenv
 py -m venv env
 ```
