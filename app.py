@@ -104,7 +104,6 @@ def create_app(test_config=None):
 
         new_name = body.get('name', None)
         new_address = body.get('address', None)
-
     
         if new_name:
           restaurant.name = new_name
