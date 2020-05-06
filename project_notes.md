@@ -75,3 +75,9 @@ https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_GettingStarted.Creat
 # README.md file info
 * [Template](https://gist.github.com/PurpleBooth/109311bb0361f32d87a2)
 * [Basic writing and formatting syntax](https://help.github.com/en/github/writing-on-github/basic-writing-and-formatting-syntax)
+
+# Make copy of postgres database
+
+```bash
+createdb -O ownername -T originaldb newdb
+```
