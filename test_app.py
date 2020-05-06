@@ -29,15 +29,18 @@ class FsndCapstoneTestCase(unittest.TestCase):
         """Executed after reach test"""
         pass
 
-# def test_create_new_actor_casting_assistant(self):
+    def test_create_new_actor_casting_assistant(self):
 
-#     res = self.client().post('/actors', headers={"Authorization": "Bearer {}".format(self.casting_assistant)}, json=self.new_actor)
-#     data = json.loads(res.data)
+        res = self.client().post('/restaurnats', headers={"Authorization": "Bearer {}".format(self.casting_assistant)}, json=self.new_actor)
+        data = json.loads(res.data)
 
-#     self.assertEqual(res.status_code, 401)
-#     self.assertEqual(data['message'], {
-#     'code': 'unauthorized', 
-#     'description':'Permission not found.'})
+        res = Restaurant(name="res", address='addressssss', owner_id='owner idddd')
+        res.insert()
+
+        self.assertEqual(res.status_code, 401)
+        self.assertEqual(data['message'], {
+        'code': 'unauthorized', 
+        'description':'Permission not found.'})
 
 
 
