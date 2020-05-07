@@ -21,11 +21,16 @@ def create_app(test_config=None):
   def get_restaruants():
     try:
       restaurants = Restaurant.query.all()
-      if menu_items == []:
-        abort(404)
+      if restaurants == []:
+        return jsonify({
+          'message': 'No restaurants available'
+        })
     except:
-      abort(404)
-    return jsonify([restaurant.format() for restaurant in restaurants])
+      abort(422)
+    return jsonify({
+      'success': True,
+      # 'restaurants': [restaurant.format() for restaurant in restaurants]
+    })
 
   # Public - get:menu_item
   @app.route('/restaurants/<int:id>/menu')
@@ -34,10 +39,15 @@ def create_app(test_config=None):
     try:
       menu_items = MenuItems.query.filter(MenuItems.restaurant_id==r_id).all()
       if menu_items == []:
-        abort(404)
+        return jsonify({
+          'message': 'No menu_items available'
+        })
     except:
-      abort(404)
-    return jsonify([item.format() for item in menu_items])
+      abort(422)
+    return jsonify({
+      "items": [item.format() for item in menu_items],
+      'success': True
+    })
 
   
   # Customer - post:reservation
@@ -62,7 +72,10 @@ def create_app(test_config=None):
     except:
       abort(403)
 
-    return [reservation.format() for reservation in upcoming_reservations]
+    return jsonify({
+      'success': True,
+      'upcoming_reservations': [reservation.format() for reservation in upcoming_reservations]
+    })
 
   
   # Restaurant owner - post:restaurant
@@ -85,7 +98,10 @@ def create_app(test_config=None):
     except:
       abort(422)
 
-    return jsonify([restaurant.format() for restaurant in users_restaurant])
+    return jsonify({
+      "owned_restaurants": [restaurant.format() for restaurant in users_restaurant],
+      "success": True
+    })
 
 
     # Restaurant owner - patch:restaurant
@@ -116,9 +132,11 @@ def create_app(test_config=None):
       
       except:
         abort(422)
-
-      return jsonify(updated_restaurant.format())
-
+      return jsonify({
+      "updated_restaurant": updated_restaurant.format(),
+      "success": True
+    })
+    
 
   # Restaurant owner - delete:restaurant
   @app.route('/restaurants/<int:id>', methods=['POST'])
@@ -135,7 +153,9 @@ def create_app(test_config=None):
       restaurant.delete()
     except:
       abort(422)
-
+    return jsonify({
+      'success': True
+    })
   # Error Handlers
   
   @app.errorhandler(422)
