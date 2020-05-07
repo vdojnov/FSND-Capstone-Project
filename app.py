@@ -23,13 +23,14 @@ def create_app(test_config=None):
       restaurants = Restaurant.query.all()
       if restaurants == []:
         return jsonify({
+          'success': True,
           'message': 'No restaurants available'
         })
     except:
       abort(422)
     return jsonify({
       'success': True,
-      # 'restaurants': [restaurant.format() for restaurant in restaurants]
+      'restaurants': [restaurant.format() for restaurant in restaurants]
     })
 
   # Public - get:menu_item
@@ -40,6 +41,7 @@ def create_app(test_config=None):
       menu_items = MenuItems.query.filter(MenuItems.restaurant_id==r_id).all()
       if menu_items == []:
         return jsonify({
+          'success': True,
           'message': 'No menu_items available'
         })
     except:
@@ -156,6 +158,22 @@ def create_app(test_config=None):
     return jsonify({
       'success': True
     })
+
+
+  @app.route('/login-results')
+  @requires_auth('get:login-results')
+  def login_results(token):
+    id = token
+    try:
+      return id
+    except:
+      return id
+    return jsonify({
+      'token': "hello"
+    }) 
+
+
+
   # Error Handlers
   
   @app.errorhandler(422)
