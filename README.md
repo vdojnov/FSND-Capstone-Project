@@ -79,8 +79,8 @@ flask run
 
 # Testing
 * Testing instructions
-1. create new databse
-2. set it to name and url of database in test_app.py
+1. Create new databse
+2. Set it to name and url of database in test_app.py
 3. 
 
 # Deployment
@@ -93,8 +93,3 @@ flask run
 Special thanks to:
 * Kurt Galvin - https://github.com/kurtgalvin
 * The Udacity Team!
-
-
-
-
-
