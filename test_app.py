@@ -79,7 +79,7 @@ class FsndCapstoneTestCase(unittest.TestCase):
 
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data['success'], True)
-        # self.assertEqual(data['restaurants'], output)
+        self.assertEqual(data['restaurants'], output)
 
 
 
