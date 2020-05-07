@@ -77,7 +77,7 @@ https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_GettingStarted.Creat
 * [Basic writing and formatting syntax](https://help.github.com/en/github/writing-on-github/basic-writing-and-formatting-syntax)
 
 # Make copy of postgres database
-
+* ownername = username of owner (ex. postgres)
 ```bash
 createdb -O ownername -T originaldb newdb
 ```
