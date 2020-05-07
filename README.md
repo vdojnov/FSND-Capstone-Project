@@ -79,6 +79,8 @@ flask run
 
 # Testing
 * Testing instructions
+1. create new databse
+2. set it to your DATABASE_URL variable
 
 # Deployment
 * Deployment on Heroku instructions
