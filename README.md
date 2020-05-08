@@ -79,9 +79,17 @@ flask run
 
 # Testing
 * Testing instructions
-1. Create new databse
-2. Set it to name and url of database in test_app.py
-3. 
+1. Create a new database for testing (choose and new name ex. _new_testing_db_)
+
+        createdb new_testing_db
+
+2. In **test_app.py** set _database_name_ and _database_path_ from your local machine
+
+3. In the command line run
+``` bash
+python test_app.py
+```
+4. The tests will run and should all be completed sucessfully
 
 # Deployment
 * Deployment on Heroku instructions
