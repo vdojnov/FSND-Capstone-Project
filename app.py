@@ -20,19 +20,31 @@ def create_app(test_config=None):
   @app.route('/restaurants')
   def get_restaruants():
     try:
-      restaurants = Restaurant.query.all()
-      if restaurants == []:
-        return jsonify({
-          'success': True,
-          'message': 'No restaurants available'
-        })
+      restaurants = Restaurant.query.order_by(Restaurant.id).all()
+      res = [restaurant.format() for restaurant in restaurants]
+    
     except:
       abort(422)
+
     return jsonify({
       'success': True,
-      'restaurants': [restaurant.format() for restaurant in restaurants]
+      'restaurants': res
     })
 
+  @app.route('/restaurants/<int:id>')
+  def get_restaruants_by_id(id):
+    try:
+      restaurants = Restaurant.query.get(id)
+      res = restaurants.format()
+    
+    except:
+      abort(422)  
+
+    return jsonify({
+      'success': True,
+      'restaurants': res
+    })
+  
   # Public - get:menu_item
   @app.route('/restaurants/<int:id>/menu')
   def get_restaruant_menu(id):
@@ -106,42 +118,46 @@ def create_app(test_config=None):
     })
 
 
-    # Restaurant owner - patch:restaurant
-    @app.route('/restaurants/<int:id>', methods=['POST'])
-    @requires_auth('patch:restaurant')
-    def edit_restaurant(token, id):
-      try:
-        owner_id = token.get('sub')
-
-        restaurant = Restaurant.query.get(id)
-        
-        if owner_id != restaurant.owner_id:
-          abort(401)
-
-        body = request.get_json()
-
-        new_name = body.get('name', None)
-        new_address = body.get('address', None)
-    
-        if new_name:
-          restaurant.name = new_name
-        if new_address:
-          restaurant.address = new_address
-
-        restaurant.update()
-
-        updated_restaurant = Restaurant.query.get(id)
+  # Restaurant owner - patch:restaurant
+  @app.route('/restaurants/<int:id>', methods=['PATCH'])
+  @requires_auth('patch:restaurant')
+  def edit_restaurant(token, id):
+    try:      
+      rest_id = id
+     
+      owner_id = token.get('sub')
       
-      except:
-        abort(422)
-      return jsonify({
-      "updated_restaurant": updated_restaurant.format(),
-      "success": True
-    })
+
+      restaurant = Restaurant.query.get(rest_id)
+      
+      if owner_id != restaurant.owner_id: 
+        raise abort(401)
+        
+           
+
+      body = request.get_json()
+
+      new_name = body.get('name')
+      new_address = body.get('address')
+  
+      if new_name:
+        restaurant.name = new_name
+      if new_address:
+        restaurant.address = new_address
+
+      restaurant.update()
+
+      updated_restaurant = Restaurant.query.get(rest_id)
+    except:
+      abort(422)
+    return jsonify({
+    "updated_restaurant": updated_restaurant.format(),
+    "success": True
+  })
     
 
   # Restaurant owner - delete:restaurant
-  @app.route('/restaurants/<int:id>', methods=['POST'])
+  @app.route('/restaurants/<int:id>', methods=['DELETE'])
   @requires_auth('delete:restaurant')
   def delete_restaurant(token, id):
     try:
@@ -163,13 +179,10 @@ def create_app(test_config=None):
   @app.route('/login-results')
   @requires_auth('get:login-results')
   def login_results(token):
-    id = token
-    try:
-      return id
-    except:
-      return id
+    user_token = token
+  
     return jsonify({
-      'token': "hello"
+      'token': user_token
     }) 
 
 
