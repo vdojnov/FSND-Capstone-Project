@@ -4,6 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from models import setup_db, Reservations, Restaurant, MenuItems
 from auth.auth import requires_auth
+import datetime
 # from auth.auth import AuthError, requires_auth
 
 def create_app(test_config=None):
@@ -72,25 +73,23 @@ def create_app(test_config=None):
     
     restaurant_id = id
     if Restaurant.query.get(restaurant_id) is None:
-      abort(404)
+      abort(422)
     
     try:
+      
       body = request.get_json()
-      print("a")
-      time_of_res = body.get('time_of_res')
-      rint("b")
-      num_of_people = body.get('num_of_people')
-      rint("c")
+      
+      time_of_res = body.get('time_of_res')      
+      num_of_people = body.get('num_of_people')      
       name_for_res = body.get('name_for_res')
-      print(3)
+      
       customer_id = token.get('sub')
-      print(4)
+      
       reservation = Reservations(restaurant_id=restaurant_id, time_of_res=time_of_res, num_of_people=num_of_people, name_for_res=name_for_res, customer_id=customer_id)
-      print(5)
       reservation.insert()
-      print(6)
-      upcoming_reservations = Reservations.query.filter(Reservations.customer_id==customer_id,time_of_res >= datetime.now())
-      print(7)
+      
+      upcoming_reservations = Reservations.query.filter(Reservations.customer_id==customer_id, Reservations.time_of_res >= datetime.datetime.now()).all()
+      
     except:
       abort(422)
 
