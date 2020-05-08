@@ -47,7 +47,7 @@ class FsndCapstoneTestCase(unittest.TestCase):
 
         # Post New Reservations
         self.reservation_info = {
-            'time_of_res': datetime.now(),
+            'time_of_res': "2020-08-19 18:30:00",
             'num_of_people': 5,
             'name_for_res': "Reservations Name"
         }    
@@ -72,26 +72,12 @@ class FsndCapstoneTestCase(unittest.TestCase):
 
 
 
-
-
-
-
-
-
-
-
+    # TESTS START HERE
 
     def test_homepage(self):       
         res = self.client().get('/')
         
         self.assertEqual(res.status_code, 200)
-
-    # def test_get_restaurants_empty_db(self):
-    #     res = self.client().get('/restaurants')
-    #     data = json.loads(res.data)
-
-    #     self.assertEqual(res.status_code, 200)
-    #     self.assertEqual(data['restaurants'], [])
 
 
     def test_post_restaurant_with_valid_token(self):        
@@ -164,15 +150,25 @@ class FsndCapstoneTestCase(unittest.TestCase):
 
     def test_post_reservation_with_vaild_customer(self):
         res = self.client().post('/restaurants/' + str(self.current_rest_id)  + '/reservation', headers={"Authorization": "Bearer {}".format(self.customer)}, json=self.reservation_info)
-        # data = json.loads(res.data)
-
+        data = json.loads(res.data)
+        
         self.assertEqual(res.status_code, 200)
 
 
 
+    def test_post_reservation_with_invaild_customer(self):
+        res = self.client().post('/restaurants/' + str(self.current_rest_id)  + '/reservation', headers={"Authorization": "Bearer {}".format(self.badtoken)}, json=self.reservation_info)
+        data = json.loads(res.data)
+        
+        self.assertEqual(res.status_code, 401)
 
 
 
+    def test_post_reservation_with_non_existant_restaurant(self):
+        res = self.client().post('/restaurants/' + str(self.current_rest_id + 1000)  + '/reservation', headers={"Authorization": "Bearer {}".format(self.customer)}, json=self.reservation_info)
+        data = json.loads(res.data)
+        
+        self.assertEqual(res.status_code, 422)
 
     
     
@@ -183,6 +179,8 @@ class FsndCapstoneTestCase(unittest.TestCase):
 
         self.assertEqual(res.status_code, 200)
         self.assertEqual(deleted_rest, None)
+
+
 
     def test_delete_non_existant_restaurant(self):
         res = self.client().delete('/restaurants/' + str((self.current_rest_id + 10000)), headers={"Authorization": "Bearer {}".format(self.manager)})
@@ -196,14 +194,5 @@ class FsndCapstoneTestCase(unittest.TestCase):
     
 
 
-
-
-
-
-
-
-
 if __name__ == "__main__":
     unittest.main()
-
-
