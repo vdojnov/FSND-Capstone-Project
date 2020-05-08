@@ -27,47 +27,47 @@ The motivation of this project is to practice the skills learned during the Udac
 Install the necessary requirmenets by running:
 
 ``` bash
-pip install -r requirements.txt
+    pip install -r requirements.txt
 ```
 
 **Running on local machine**
 1. Open a terminal and cd to the project directory:
 ``` bash
-cd ~/FSND-Capstone-Project
+    cd ~/FSND-Capstone-Project
 ```
 2. Set up your DATABASE_URL variable depending on OS:
 
 ``` bash
-export DATABASE_URL="{DATABASE_URL}"
+    export DATABASE_URL="{DATABASE_URL}"
 
-For Windows use:
+    For Windows use:
 
-$env:DATABASE_URL="{DATABASE_URL}"
+    $env:DATABASE_URL="{DATABASE_URL}"
 ```
 
 3. Run ALL three migration commands **ONLY** on you first set up:
 
 ``` bash
 # Run the init command once
-python manage.py db init
-python manage.py db migrate
-python manage.py db upgrade
+    python manage.py db init
+    python manage.py db migrate
+    python manage.py db upgrade
 
 # Run the last 2 commands if/when you make changes to database structure
 ```
 
 4. Set up FLASK_APP variable depending on OS:
 ``` bash
-export FLASK_APP=app.py
+    export FLASK_APP=app.py
 
-For Windows use:
+    For Windows use:
 
-$env:FLASK_APP="app.py"
+    $env:FLASK_APP="app.py"
 ```
 
 5. To run the app use:
 ``` bash
-flask run
+    flask run
 ```
 * By default, the app will run on http://127.0.0.1:5000/ 
 
@@ -80,19 +80,76 @@ flask run
 # Testing
 * Testing instructions
 1. Create a new database for testing (choose and new name ex. _new_testing_db_)
-
-        createdb new_testing_db
+``` bash
+    createdb new_testing_db
+```
+        
 
 2. In **test_app.py** set _database_name_ and _database_path_ from your local machine
 
 3. In the command line run
 ``` bash
-python test_app.py
+    python test_app.py
 ```
 4. The tests will run and should all be completed sucessfully
 
 # Deployment
-* Deployment on Heroku instructions
+This app is deployed on Heroku. For deployment, you need to:
+
+1. Install Heroku CLI and login to Heroku on the terminal
+
+2. create a [setup.sh](setup.sh) file and declare all your variables in the file
+
+3. Install gunicorn
+``` bash
+    pip install gunicorn
+```
+
+4. Create a [Procfile](Procfile) and add the line below. The Procfile instructs Heroku on what to do. Make sure that **your app** is housed in **[app.py](app.py)**
+``` bash
+    web: gunicorn app:app
+```
+
+5. Install the following requirements
+``` bash
+    pip install flask_script
+    pip install flask_migrate
+    pip install psycopg2-binary
+```       
+
+6. Freeze your requirements in the [requirements.txt](requirements.txt) file
+``` bash
+    pip freeze > requirements.txt
+```   
+
+7. Create Heroku app
+``` bash
+    heroku create name_of_your_app
+```
+        
+8. Add git remote for Heroku to local repository
+``` bash
+    git remote add heroku heroku_git_url
+``` 
+
+9. Add postgresql add on for our database
+``` bash
+    heroku addons:create heroku-postgresql:hobby-dev --app name_of_your_application
+```
+        
+10. Push any changes to your GitHub Repository
+
+11. Push to Heroku
+``` bash
+    git push heroku master
+```      
+
+12. Run Migrations to the Heroku database
+``` bash
+    heroku run python manage.py db upgrade --app name_of_your_application
+```
+
+Visit your Heroku app on the hosted URL!
 
 # Authors
 * **Viktor Dojnov** - https://github.com/vdojnov
