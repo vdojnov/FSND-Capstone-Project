@@ -3,6 +3,7 @@ from sqlalchemy import Column, String, create_engine, Integer, DateTime, Numeric
 from flask_sqlalchemy import SQLAlchemy
 import json
 import os
+from sqlalchemy.ext.hybrid import hybrid_property, hybrid_method
 
 database_path = os.environ['DATABASE_URL']
 
@@ -28,7 +29,7 @@ class Restaurant(db.Model):
     address = Column(String)
     owner_id = Column(String, nullable=False)  # owner_id will be retrieved from token to see which user owns the restaurant
     reservation_rel = db.relationship('Reservations', backref='restaurnt_res', lazy=True)
-    reservation_rel = db.relationship('MenuItems', backref='restaurnt_menu_item', lazy=True)  
+    menu_rel = db.relationship('MenuItems', backref='restaurnt_menu_item', lazy=True)  
 
     def insert(self):
         db.session.add(self)
@@ -69,12 +70,16 @@ class Reservations(db.Model):
     def delete(self):
         db.session.delete(self)
         db.session.commit()
+    
+    @hybrid_property
+    def restaurant_name(self):
+        return self.restaurnt_res.name
 
     def format(self):
         return {
              "time_of_res": self.time_of_res
             ,"num_of_people": self.num_of_people
-            ,"restaurant_name": self.restaurnt_res.name
+            ,"restaurant_name": self.restaurant_name
         } 
 
 
