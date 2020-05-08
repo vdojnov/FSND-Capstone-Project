@@ -127,13 +127,14 @@ def create_app(test_config=None):
      
       owner_id = token.get('sub')
       
-
       restaurant = Restaurant.query.get(rest_id)
       
       if owner_id != restaurant.owner_id: 
-        raise abort(401)
-        
-           
+        abort(401)
+    # except 401:
+    #   abort(401)  
+
+    # try:       
 
       body = request.get_json()
 
