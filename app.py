@@ -138,7 +138,8 @@ def create_app(test_config=None):
 
     if restaurant is None:      
       abort(422)
-  
+
+    # Check if User owns the restaurant
     if owner_id != restaurant.owner_id: 
       abort(401)         
     try:
@@ -176,6 +177,7 @@ def create_app(test_config=None):
     if restaurant is None:      
       abort(422)
     
+    # Check if User owns the restaurant
     if owner_id != restaurant.owner_id:
       abort(401)
     try:
