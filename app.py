@@ -1,5 +1,5 @@
 import os
-from flask import Flask, request, abort, jsonify
+from flask import Flask, request, abort, jsonify, redirect
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from models import setup_db, Reservations, Restaurant, MenuItems
@@ -187,15 +187,18 @@ def create_app(test_config=None):
     })
 
 
-  @app.route('/login-results')
-  @requires_auth('get:login-results')
-  def login_results(token):
-    user_token = token
-  
-    return jsonify({
-      'token': user_token
-    }) 
+  @app.route('/login-results')  
+  def login_results():
+   
+    return "Welcome!"
+   
 
+  # @app.route('/user')
+  # @requires_auth('read:yourself')
+  # def user(token):
+
+  #   return token
+  
 
 
   # Error Handlers
