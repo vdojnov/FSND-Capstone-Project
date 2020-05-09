@@ -15,9 +15,11 @@ The motivation of this project is to practice the skills learned during the Udac
 * [SQLAlechmy ORM](https://flask-sqlalchemy.palletsprojects.com/en/2.x/)
 * [PostgresSQL 12.2](https://www.postgresql.org/docs/12/release-12-2.html) 
 * [Flask - Migrate](https://flask-migrate.readthedocs.io/en/latest/)
+* RESTful - API
 * Authentication - JSON Web Token (JWT) with [Auth0](auth0.com)
 * User Roles/Permissions
 * Python virtual environment - [venv](https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/)
+* Python - [unittest](https://docs.python.org/3/library/unittest.html#module-unittest)
 * API testing with [Postman](https://www.postman.com/)
 * Deployment on [Heroku](https://heroku.com/)
 
