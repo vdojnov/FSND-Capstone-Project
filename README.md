@@ -137,11 +137,14 @@ This app is deployed on Heroku. For deployment, you need to:
     heroku addons:create heroku-postgresql:hobby-dev --app name_of_your_application
 ```
 10. Add all the Variables in Heroku under settings
-
-        DATABASE_URL
-        AUTH0_DOMAIN
-        ALGORITHMS
-        API_AUDIENCE
+``` bash
+    # This should already exist from the last step
+    DATABASE_URL
+    # Get these from Auth0
+    AUTH0_DOMAIN
+    ALGORITHMS
+    API_AUDIENCE
+```
         
 10. Push any changes to your GitHub Repository
 
