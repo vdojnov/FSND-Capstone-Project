@@ -7,9 +7,13 @@ from urllib.request import urlopen
 
 # Change this with new Auth0 info
 # --------------------------------
-AUTH0_DOMAIN = 'fsnd-happyhour.auth0.com'
-ALGORITHMS = ['RS256']
-API_AUDIENCE = 'fsndcapstone'
+# AUTH0_DOMAIN = 'fsnd-happyhour.auth0.com'
+# ALGORITHMS = ['RS256']
+# API_AUDIENCE = 'fsndcapstone'
+
+AUTH0_DOMAIN = os.environ['AUTH0_DOMAIN']
+ALGORITHMS = os.environ['ALGORITHMS']
+API_AUDIENCE = os.environ['API_AUDIENCE']
 
 ## AuthError Exception
 '''
