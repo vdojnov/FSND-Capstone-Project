@@ -74,7 +74,7 @@ Install the necessary requirmenets by running:
 # Authentication 
  * This app can be run at https://fsnd-happyhour.herokuapp.com/
 
- * You can securly Sign Up or Log In through Auth0: https://fsnd-happyhour.auth0.com/authorize?audience=fsndcapstone&response_type=token&client_id=rY3ee6xjoWocXP7PkCUouHS48vX9YAoo&redirect_uri=http://localhost:5000/login-results
+ * You can securly Sign Up or Log In through Auth0: https://fsnd-happyhour.auth0.com/authorize?audience=fsndcapstone&response_type=token&client_id=rY3ee6xjoWocXP7PkCUouHS48vX9YAoo&redirect_uri=https://fsnd-happyhour.herokuapp.com/login-results
 
 
 # Testing
@@ -136,6 +136,12 @@ This app is deployed on Heroku. For deployment, you need to:
 ``` bash
     heroku addons:create heroku-postgresql:hobby-dev --app name_of_your_application
 ```
+10. Add all the Variables in Heroku under settings
+
+        DATABASE_URL
+        AUTH0_DOMAIN
+        ALGORITHMS
+        API_AUDIENCE
         
 10. Push any changes to your GitHub Repository
 
