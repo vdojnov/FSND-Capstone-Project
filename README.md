@@ -33,9 +33,11 @@ Install the necessary requirmenets by running:
 ```
 
 **Running on local machine**
-1. Open a terminal and cd to the project directory:
+1. Open a terminal and cd to the project directory and install requirements:
 ``` bash
     cd ~/FSND-Capstone-Project
+    # Then
+    pip install -r requirements.txt
 ```
 2. Set up your DATABASE_URL variable depending on OS:
 
@@ -58,6 +60,21 @@ Install the necessary requirmenets by running:
 # Run the last 2 commands if/when you make changes to database structure
 ```
 
+4. Set up Authentication with Auth0.com. You need two roles with different permissions:
+
+Customer:
+
+    permissions:
+        post:reservation
+
+Restaurant Manager:
+
+    permissions:
+        post:restaurant
+        patch:restaurant
+        delete:restaurant
+
+
 4. Set up FLASK_APP variable depending on OS:
 ``` bash
     export FLASK_APP=app.py
@@ -71,7 +88,165 @@ Install the necessary requirmenets by running:
 ``` bash
     flask run
 ```
+
+
 * By default, the app will run on http://127.0.0.1:5000/ 
+
+# Endpoints and Error Handlers
+
+**ENDPONTS**
+
+1. GET '/restaurants'
+2. GET '/restaurants/<int:id>'
+3. GET '/restaurants/<int:id>/menu'
+4. POST '/restaurants/<int:id>/reservation'
+5. POST '/restaurants'
+6. PATCH '/restaurants/<int:id>'
+7. DELETE '/restaurants/<int:id>'
+
+```bash
+GET '/restaurants'
+- No Authorization required
+- Gets all the restaurants that are in the database
+- Does not take any arguments
+- Returns
+    {
+        'success': True,
+        'restaurants': [{
+            "id": self.id,
+            "name": self.name,
+            "address": self.address
+            }, ...]
+}
+
+GET '/restaurants/<int:id>'
+- No Authorization required
+- Gets all the info from a selected restaurant
+- <int:id> relpaces the ID of the restaurant you want
+- Returns:
+    {
+        'success': True,
+        'restaurants': [{
+            "id": self.id,
+            "name": self.name,
+            "address": self.address
+            }]
+    }
+
+GET '/restaurants/<int:id>/menu'
+- No Authorization required
+- Gets the menu items that belong to a restaurnt, could be more than one
+- <int:id> replaces the ID of restaurant you want to see the menu items 
+- Returns:
+    {
+        'success': True,
+        "items": [{
+            "name": self.name,
+            "description": self.description,
+            "price": str(self.price),
+            "restaurant_name": self.restaurnt_menu_item.name
+            }, ...]
+    }
+
+POST '/restaurants/<int:id>/reservation'
+- Requred Authorization with 'Customer' role
+- Posts a reservation for the restaurant with id in <int:id>
+- Required input (data type listed inside brackets):
+    {
+        "time_of_res": (datetime),
+        "num_of_people": (int),
+        "name_for_res": (string)
+    }
+- Returns all upcoming reservation for the customer making the reservation:
+    {   
+        'success': True,
+        'upcoming_reservations': [{
+            "time_of_res": self.time_of_res,
+            "num_of_people": self.num_of_people,
+            "restaurant_name": self.restaurant_name,
+        }, ...]
+        
+    }
+
+POST '/restaurants'
+- Requred Authorization with 'Restaurant Manager' role
+- Restaurant Manager can post their restaurant
+- Required input (data type listed inside brackets):
+    {
+        "name": (string),
+        "address": (string)
+    }
+- Returns all the restaurants that the user owns:
+    {
+        "success": True,
+        "owned_restaurants": [{
+            "id": self.id,
+            "name": self.name,
+            "address": self.address
+        }, ...]
+    }
+
+PATCH '/restaurants/<int:id>'
+- Requred Authorization with 'Restaurant Manager' role, and the Restaurant manager can only PATCH his/her own restaurnat
+- Restaurant manager can edit their restaurants. They can edit the name, the address, or both
+- Required input (data type listed inside brackets):
+    {
+        "name": (string),
+        "address": (string)
+    }
+- Returns the the newly updated restaurant with the new information:
+    {
+        "name": 'NEW NAME',
+        "address": 'NEW ADDRESS'
+    }
+
+
+DELETE '/restaurants/<int:id>'
+- Requred Authorization with 'Restaurant Manager' role, and the Restaurant manager can only DELETE his/her own restaurnat
+- Deletes the restaurant with id replaced by <int:id>
+- Returns Response if deletes succesfully:
+    {
+        "success": True
+    }
+```
+
+**ERROR HANDLERS**
+```bash
+
+Error 422 (Unprocessable)
+Returns:
+    {
+      "success": False,
+      "error": 422,
+      "message": "unprocessable"
+    }
+
+Error 404 (Bad Request)
+Returns:
+    {
+        "success": False,
+        "error": 404,
+        "message": "resource not found"
+    }
+
+Error 401 (Resource Not Found)
+Returns:
+    {
+        "success": False,
+        "error": 401,
+        "message": "Unauthorized Error"
+    }
+
+Error 400 (Unauthorized Error)
+Returns:
+    {
+        "success": False,
+        "error": 400,
+        "message": "Bad Request"
+    }
+
+
+```
 
 # Authentication 
  * This app can be run at https://fsnd-happyhour.herokuapp.com/
