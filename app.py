@@ -22,8 +22,7 @@ def create_app(test_config=None):
   def get_restaruants():
     try:
       restaurants = Restaurant.query.order_by(Restaurant.id).all()
-      res = [restaurant.format() for restaurant in restaurants]
-    
+      res = [restaurant.format() for restaurant in restaurants]    
     except:
       abort(422)
 
@@ -36,8 +35,7 @@ def create_app(test_config=None):
   def get_restaruants_by_id(id):
     try:
       restaurants = Restaurant.query.get(id)
-      res = restaurants.format()
-    
+      res = restaurants.format()    
     except:
       abort(422)  
 
@@ -68,17 +66,13 @@ def create_app(test_config=None):
   # Customer - post:reservation
   @app.route('/restaurants/<int:id>/reservation', methods=['POST'])
   @requires_auth('post:reservation')
-  def post_reservation(token, id):       
-    
-    
+  def post_reservation(token, id):      
     restaurant_id = id
     if Restaurant.query.get(restaurant_id) is None:
       abort(422)
     
-    try:
-      
-      body = request.get_json()
-      
+    try:      
+      body = request.get_json()      
       time_of_res = body.get('time_of_res')      
       num_of_people = body.get('num_of_people')      
       name_for_res = body.get('name_for_res')
@@ -88,8 +82,7 @@ def create_app(test_config=None):
       reservation = Reservations(restaurant_id=restaurant_id, time_of_res=time_of_res, num_of_people=num_of_people, name_for_res=name_for_res, customer_id=customer_id)
       reservation.insert()
       
-      upcoming_reservations = Reservations.query.filter(Reservations.customer_id==customer_id, Reservations.time_of_res >= datetime.datetime.now()).all()
-      
+      upcoming_reservations = Reservations.query.filter(Reservations.customer_id==customer_id, Reservations.time_of_res >= datetime.datetime.now()).all()     
     except:
       abort(422)
 
@@ -104,7 +97,6 @@ def create_app(test_config=None):
   @requires_auth('post:restaurant')
   def post_restaurants(token):
     try:
-
       owner_id = token.get('sub')
 
       body = request.get_json()
@@ -115,7 +107,6 @@ def create_app(test_config=None):
       restaurant.insert()
 
       users_restaurant = Restaurant.query.filter(Restaurant.owner_id==owner_id).all()
-
     except:
       abort(422)
 
@@ -128,12 +119,9 @@ def create_app(test_config=None):
   # Restaurant owner - patch:restaurant
   @app.route('/restaurants/<int:id>', methods=['PATCH'])
   @requires_auth('patch:restaurant')
-  def edit_restaurant(token, id):
-         
-    rest_id = id
-    
-    owner_id = token.get('sub')
-    
+  def edit_restaurant(token, id):         
+    rest_id = id    
+    owner_id = token.get('sub')    
     restaurant = Restaurant.query.get(rest_id)
 
     if restaurant is None:      
@@ -168,10 +156,8 @@ def create_app(test_config=None):
   # Restaurant owner - delete:restaurant
   @app.route('/restaurants/<int:id>', methods=['DELETE'])
   @requires_auth('delete:restaurant')
-  def delete_restaurant(token, id):
-  
+  def delete_restaurant(token, id):  
     owner_id = token.get('sub')
-
     restaurant = Restaurant.query.get(id)
 
     if restaurant is None:      
@@ -200,18 +186,16 @@ def create_app(test_config=None):
   # def user(token):
 
   #   return token
-  
-
 
   # Error Handlers
   
   @app.errorhandler(422)
   def unprocessable(error):
       return jsonify({
-                      "success": False,
-                      "error": 422,
-                      "message": "unprocessable"
-                      }), 422
+      "success": False,
+      "error": 422,
+      "message": "unprocessable"
+      }), 422
 
 
   @app.errorhandler(404)
@@ -238,7 +222,6 @@ def create_app(test_config=None):
           "error": 400,
           "message": "Bad Request"
       }), 400
-
 
 
   return app
